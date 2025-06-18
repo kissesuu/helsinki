@@ -1,5 +1,5 @@
-
-sequenceDiagram
+```mermaid
+    sequenceDiagram
     participant browser
     participant server
 
@@ -33,3 +33,4 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser finished reloading the page with updated the notes
+```
