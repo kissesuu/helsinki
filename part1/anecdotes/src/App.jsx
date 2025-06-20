@@ -1,8 +1,14 @@
 import { useState } from 'react'
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function getMostVotedAnecdote(votes) {
+    const maxVotes = Math.max(...votes);
+    const index = votes.indexOf(maxVotes);
+    return index;
+  }
 
 const App = () => {
   const anecdotes = [
@@ -17,15 +23,30 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const copyOfVotes = [...votes]
+  const index = getMostVotedAnecdote(votes)
 
-  console.log(getRandomInt(anecdotes.length))
+  console.log(`Selected: ${selected}`)
+  console.log(`Votes: ${votes}`)
+
+  const handleVote = () => {
+    copyOfVotes[selected] += 1
+    setVotes(copyOfVotes)
+  }
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={handleVote}>vote</button>
       <button onClick={() => setSelected(getRandomInt(anecdotes.length))}>
-        Next Anecdote
+        next anecdote
       </button>
+      <h2>Anecdote with most votes</h2>
+      <p>{anecdotes[index]}</p>
+      <p>{votes[index] > 0 ? `has ${votes[index]} votes` : `No votes yet`}</p>
     </div>
   )
 }
